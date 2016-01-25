@@ -7,15 +7,17 @@
     "test": "test"
   },
   "dependencies": {
-    "gl-mat3": "^1.0.0",
-    "gl-vec2": "^1.0.0"
+    "gl-mat4": "^1.1.4",
+    "gl-vec3": "^1.0.3",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6"
   },
   "devDependencies": {
     "tape": "^4.4.0"
   },
   "scripts": {
     "test": "node test",
-    "build": "node test/main && browserify -o public/main.js main.js"
+    "build": "http-server & watchify -o public/main.js main.js"
   },
   "repository": {
     "type": "git",
