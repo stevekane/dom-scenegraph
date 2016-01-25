@@ -1,11 +1,8 @@
 var mat4 = require('gl-mat4')
 var vec3 = require('gl-vec3')
+var remove = require('./utils').remove
 
 module.exports = Node
-
-function remove (array, el) {
-  array.splice(array.indexOf(el), 1)
-}
 
 function Node () {
 	this.parent = null
