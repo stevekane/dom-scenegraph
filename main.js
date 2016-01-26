@@ -4,11 +4,9 @@ var DOM = require('react-dom')
 var SceneGraph = require('./src/SceneGraph')
 var Node = require('./src/Node')
 var Camera = require('./src/Camera')
-var radToDeg = require('./src/utils').radToDeg
-
-function randFrom (array) {
-  return array[Math.floor(Math.random() * array.length)]
-}
+var utils = require('./src/utils')
+var radToDeg = utils.radToDeg
+var randFrom = utils.randFrom
 
 function setMat3d (camera, node) {
   var m = node.worldMatrix

@@ -5,11 +5,9 @@ var DOM = require('react-dom')
 var SceneGraph = require('./src/SceneGraph')
 var Node = require('./src/Node')
 var Camera = require('./src/Camera')
-var radToDeg = require('./src/utils').radToDeg
-
-function randFrom (array) {
-  return array[Math.floor(Math.random() * array.length)]
-}
+var utils = require('./src/utils')
+var radToDeg = utils.radToDeg
+var randFrom = utils.randFrom
 
 function setMat3d (camera, node) {
   var m = node.worldMatrix
@@ -20884,6 +20882,7 @@ SceneGraph.prototype.remove = function (node) {
 },{"./Node":217,"./utils":219}],219:[function(require,module,exports){
 module.exports.remove = remove
 module.exports.radToDeg = radToDeg
+module.exports.randFrom = randFrom
 
 function remove (array, el) {
   array.splice(array.indexOf(el), 1)
@@ -20891,6 +20890,10 @@ function remove (array, el) {
 
 function radToDeg (rad) {
   return 360 * rad / (Math.PI * 2)
+}
+
+function randFrom (array) {
+  return array[Math.floor(Math.random() * array.length)]
 }
 
 },{}],220:[function(require,module,exports){
