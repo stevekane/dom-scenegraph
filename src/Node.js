@@ -4,7 +4,8 @@ var remove = require('./utils').remove
 
 module.exports = Node
 
-function Node () {
+function Node (type) {
+  this.type = type || 'node'
 	this.parent = null
 	this.children = []
   this.color = '#113366'
@@ -39,7 +40,7 @@ Node.prototype.updateMatrices = function (parentWorldMatrix) {
 }
 
 Node.prototype.setParent = function (parent) {
-	this.parent = parent
   if (this.parent) remove(this.parent.children, this)
+	this.parent = parent
 	if (parent.children.indexOf(this) === -1) parent.children.push(this)
 }
