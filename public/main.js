@@ -20848,7 +20848,7 @@ function NodeComponent (width, height, camera, node, key) {
 function CameraComponent (width, height, camera, node, key) {
   var camera = NodeComponent(width, height, camera, node, key)
 
-  camera.props.style.backgroundColor = 'rgba(255, 255, 255, 0.4)'
+  camera.props.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
   camera.props.style.backgroundSize = '10%'
   camera.props.style.backgroundImage = "url('camera.png')"
   camera.props.style.backgroundRepeat = 'no-repeat'
