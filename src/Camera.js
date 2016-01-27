@@ -1,12 +1,13 @@
 var mat4 = require('gl-mat4')
 var vec3 = require('gl-vec3')
 var Node = require('./Node')
+var utils = require('./utils')
 
 module.exports = Camera
 
-function Camera () {
-  Node.call(this, 'camera')
-  this.dimensions = vec3.fromValues(640, 480, 0)
+function Camera (props) {
+  Node.call(this, props)
+  this.Type = 'Camera'
   this.viewMatrix = mat4.create()
 }
 

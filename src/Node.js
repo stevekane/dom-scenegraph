@@ -4,18 +4,21 @@ var remove = require('./utils').remove
 
 module.exports = Node
 
-function Node (type) {
-  this.type = type || 'node'
-	this.parent = null
-	this.children = []
-  this.color = '#113366'
-  this.dimensions = vec3.fromValues(10, 10, 0)
-	this.scale = vec3.fromValues(1, 1, 1)
-	this.rotation = 0
-	this.position = vec3.fromValues(0, 0, 0)
+function Node (props) {
+  props = props || {}
+  this.setParent(props.parent || null)
+  this.Type = props.Type || 'Node'
+  this.text = props.text || ''
+  this.fontSize = props.fontSize || 1
+  this.color = props.color || '#113366'
+  this.dimensions = props.dimensions || vec3.fromValues(10, 10, 0)
+	this.scale = props.scale || vec3.fromValues(1, 1, 1)
+	this.position = props.position || vec3.fromValues(0, 0, 0)
+	this.rotation = props.rotation || 0
 	this.worldPosition = vec3.fromValues(0, 0, 0)
 	this.localMatrix = mat4.create()
 	this.worldMatrix = mat4.create()
+	this.children = []
 }
 
 Node.prototype.updateMatrices = function (parentWorldMatrix) {
@@ -42,5 +45,5 @@ Node.prototype.updateMatrices = function (parentWorldMatrix) {
 Node.prototype.setParent = function (parent) {
   if (this.parent) remove(this.parent.children, this)
 	this.parent = parent
-	if (parent.children.indexOf(this) === -1) parent.children.push(this)
+	if (parent && parent.children.indexOf(this) === -1) parent.children.push(this)
 }
