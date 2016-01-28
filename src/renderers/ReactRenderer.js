@@ -63,7 +63,7 @@ function CameraComponent (width, height, camera, node, key) {
 
   props.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
   props.style.backgroundSize = '10%'
-  props.style.backgroundImage = "url('assets/camera.png')"
+  props.style.backgroundImage = "url('../assets/camera.png')"
   props.style.backgroundRepeat = 'no-repeat'
 	return React.DOM.div(props)
 }

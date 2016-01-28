@@ -20740,12 +20740,12 @@ const root = new Node
 const b1 = new Sprite({
   parent: root,
   dimensions: vec3.fromValues(40, 40, 0),
-  src: 'assets/scotch.png'
+  src: '../assets/scotch.png'
 })
 const b2 = new Sprite({
   parent: b1,
   dimensions: vec3.fromValues(20, 20, 0),
-  src: 'assets/sun.png'
+  src: '../assets/sun.png'
 })
 const b3 = new Box({
   parent: b2,
@@ -20894,7 +20894,7 @@ function CameraComponent (width, height, camera, node, key) {
 
   props.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
   props.style.backgroundSize = '10%'
-  props.style.backgroundImage = "url('assets/camera.png')"
+  props.style.backgroundImage = "url('../assets/camera.png')"
   props.style.backgroundRepeat = 'no-repeat'
 	return React.DOM.div(props)
 }
