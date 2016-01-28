@@ -1,10 +1,10 @@
 var vec3 = require('gl-vec3')
-var SceneGraph = require('./src/SceneGraph')
+var SceneGraph = require('./SceneGraph')
 var Node = require('./Node')
+var Box = require('./Box')
+var Sprite = require('./Sprite')
 var Camera = require('./Camera')
 var Renderer = require('./renderers/ReactRenderer')
-var utils = require('./utils')
-var randFrom = utils.randFrom
 
 const KEYS = {
   DOWN: 40,
@@ -23,27 +23,23 @@ const STAGE = document.getElementById('stage')
 const CAM_SPEED = 5
 const CAM_ZOOM_SPEED = 0.1
 const CAM_ROTATION_SPEED = Math.PI / 36
-const COLORS = ['blue', 'red', 'green', 'pink']
 const root = new Node
-const b1 = new Node({
+const b1 = new Sprite({
   parent: root,
   dimensions: vec3.fromValues(40, 40, 0),
-  color: randFrom(COLORS),
-  text: 'box1'
+  src: '/assets/scotch.png'
 })
-const b2 = new Node({
+const b2 = new Sprite({
   parent: b1,
   dimensions: vec3.fromValues(20, 20, 0),
-  color: randFrom(COLORS),
-  text: 'box2',
-  fontSize: .5
+  src: '/assets/sun.png'
 })
-const b3 = new Node({
+const b3 = new Box({
   parent: b2,
-  dimensions: vec3.fromValues(10, 10, 0),
-  color: randFrom(COLORS),
-  text: 'box3',
-  fontSize: .25
+  dimensions: vec3.fromValues(100, 20, 0),
+  backgroundColor: 'rgba(0,0,0,0)',
+  text: 'Lorem ipsum bamf',
+  fontSize: 1.5
 })
 const cam1 = new Camera({
   parent: b1,
@@ -62,7 +58,7 @@ const c = new Camera({
 })
 const cameras = [cam1, cam2, cam3]
 const scene = new SceneGraph(root, [b1, b2, b3, cam1, cam2, cam3])
-const renderer = new Renderer(STAGE, scene)
+const renderer = new Renderer
 var count = 0
 var activeCamera = c
 
@@ -110,11 +106,11 @@ function render () {
   requestAnimationFrame(render)
   count++
   b1.rotation[2] += Math.PI / 1080
-  b2.rotation[1] -= Math.PI / 720
+  b2.rotation[2] -= Math.PI / 720
   b2.position[0] = Math.sin(count / 100) * 100
   b3.position[1] = Math.cos(count / 10) * 50
   c.updateMatrices()
-  renderer.render(STAGE, activeCamera)
+  renderer.render(STAGE, activeCamera, scene)
 }
 
 render()

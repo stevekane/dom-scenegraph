@@ -8,8 +8,6 @@ function Node (props) {
   props = props || {}
   this.setParent(props.parent || null)
   this.Type = props.Type || 'Node'
-  this.text = props.text || ''
-  this.fontSize = props.fontSize || 1
   this.color = props.color || '#113366'
   this.dimensions = props.dimensions || vec3.fromValues(10, 10, 0)
 	this.scale = props.scale || vec3.fromValues(1, 1, 1)

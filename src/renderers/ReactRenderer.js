@@ -20,45 +20,57 @@ function setMat3d (width, height, camera, node) {
   return `matrix3d(${vals})`
 }
 
-function NodeComponent (width, height, camera, node, key) {
+function BaseProps (width, height, camera, node, key) {
   var xScale = camera.dimensions[0] / width
   var yScale = camera.dimensions[1] / height
-  var props = {
-    key: key,
-    style: {
-      position: 'absolute',
-      left: -node.dimensions[0] / 2 / xScale,
-      top: -node.dimensions[1] / 2 / yScale,
-      width: node.dimensions[0] / xScale,
-      height: node.dimensions[1] / yScale,
-      transform: setMat3d(width, height, camera, node),
-      color: 'white',
-      fontSize: (node.fontSize || 1) + 'em'
-    }
-  }
 
-  return React.createElement('div', props, node.text)
+	this.key = key
+	this.style = {
+		position: 'absolute',
+		left: -node.dimensions[0] / 2 / xScale,
+		top: -node.dimensions[1] / 2 / yScale,
+		width: node.dimensions[0] / xScale,
+		height: node.dimensions[1] / yScale,
+		transform: setMat3d(width, height, camera, node)
+	}
 }
 
-function ImageComponent (width, height, camera, node, key) {
-   
+
+function NodeComponent (width, height, camera, node, key) {
+	return React.DOM.div(new BaseProps(width, height, camera, node, key))
+}
+
+function BoxComponent (width, height, camera, node, key) {
+	var props = new BaseProps(width, height, camera, node, key)
+
+	props.style.backgroundColor = node.backgroundColor
+  props.style.color = node.color
+  props.style.fontSize = (node.fontSize || 1) + 'em'
+	return React.DOM.div(props, node.text || '')
+}
+
+function SpriteComponent (width, height, camera, node, key) {
+	var props = new BaseProps(width, height, camera, node, key)
+
+	props.style.background = 'url("' + node.src + '")'
+	props.style.backgroundSize = '100%'
+	props.style.backgroundRepeat = 'no-repeat'
+	return React.DOM.div(props)
 }
 
 function CameraComponent (width, height, camera, node, key) {
-  var camera = NodeComponent(width, height, camera, node, key)
+	var props = new BaseProps(width, height, camera, node, key)
 
-  camera.props.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
-  camera.props.style.backgroundSize = '10%'
-  camera.props.style.backgroundImage = "url('camera.png')"
-  camera.props.style.backgroundRepeat = 'no-repeat'
-  return camera
+  props.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
+  props.style.backgroundSize = '10%'
+  props.style.backgroundImage = "url('/assets/camera.png')"
+  props.style.backgroundRepeat = 'no-repeat'
+	return React.DOM.div(props)
 }
 
-function ReactRenderer (el, scene) {
-  this.scene = scene
-}
+function ReactRenderer () {}
 
-ReactRenderer.prototype.render = function (el, camera) {
+ReactRenderer.prototype.render = function (el, camera, scene) {
   var renderables = []
   var ASPECT_RATIO = 640 / 480
   var w = el.clientWidth
@@ -77,12 +89,14 @@ ReactRenderer.prototype.render = function (el, camera) {
     }
   }
 
-  this.scene.root.updateMatrices()
-  for (var i = 0, node, Type; node = this.scene.nodes[i++];) {
+  scene.root.updateMatrices()
+  for (var i = 0, node, Type; node = scene.nodes[i++];) {
     if (node === camera) continue
-    if   (node.Type === 'Camera') Type = CameraComponent
-    else                          Type = NodeComponent
-    renderables.push(Type(newWidth, newHeight, camera, node, i))
+    if      (node.Type === 'Camera') Type = CameraComponent
+    else if (node.Type === 'Box')		 Type = BoxComponent 
+    else if (node.Type === 'Sprite') Type = SpriteComponent 
+    else                          	 Type = NodeComponent
+    renderables.push(new Type(newWidth, newHeight, camera, node, i))
   }
   var stage = React.createElement('div', props, renderables)
 
