@@ -27,12 +27,12 @@ const root = new Node
 const b1 = new Sprite({
   parent: root,
   dimensions: vec3.fromValues(40, 40, 0),
-  src: '../assets/scotch.png'
+  src: '/assets/scotch.png'
 })
 const b2 = new Sprite({
   parent: b1,
   dimensions: vec3.fromValues(20, 20, 0),
-  src: '../assets/sun.png'
+  src: '/assets/sun.png'
 })
 const b3 = new Box({
   parent: b2,
