@@ -1,9 +1,9 @@
 var vec3 = require('gl-vec3')
 var SceneGraph = require('./src/SceneGraph')
-var Node = require('./src/Node')
-var Camera = require('./src/Camera')
-var Renderer = require('./src/renderers/ReactRenderer')
-var utils = require('./src/utils')
+var Node = require('./Node')
+var Camera = require('./Camera')
+var Renderer = require('./renderers/ReactRenderer')
+var utils = require('./utils')
 var randFrom = utils.randFrom
 
 const KEYS = {
@@ -73,7 +73,7 @@ function handleKeyDown (e) {
   else if (e.keyCode == KEYS.RIGHT) activeCamera.position[0] += CAM_SPEED
   else if (e.keyCode == KEYS.PLUS)  {
     if (e.ctrlKey) {
-      activeCamera.rotation += CAM_ROTATION_SPEED
+      activeCamera.rotation[2] += CAM_ROTATION_SPEED
     }
     else {
       activeCamera.scale[0] -= CAM_ZOOM_SPEED
@@ -82,7 +82,7 @@ function handleKeyDown (e) {
   }
   else if (e.keyCode == KEYS.MINUS) {
     if (e.ctrlKey) {
-      activeCamera.rotation -= CAM_ROTATION_SPEED
+      activeCamera.rotation[2] -= CAM_ROTATION_SPEED
     }
     else {
       activeCamera.scale[0] += CAM_ZOOM_SPEED
@@ -109,12 +109,12 @@ document.body.addEventListener('keydown', handleKeyDown)
 function render () {
   requestAnimationFrame(render)
   count++
-  b1.rotation += Math.PI / 1080
-  b2.rotation -= Math.PI / 720
+  b1.rotation[2] += Math.PI / 1080
+  b2.rotation[1] -= Math.PI / 720
   b2.position[0] = Math.sin(count / 100) * 100
   b3.position[1] = Math.cos(count / 10) * 50
   c.updateMatrices()
-  renderer.render(activeCamera)
+  renderer.render(STAGE, activeCamera)
 }
 
 render()

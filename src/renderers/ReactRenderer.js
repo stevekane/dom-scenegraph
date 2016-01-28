@@ -27,7 +27,6 @@ function NodeComponent (width, height, camera, node, key) {
     key: key,
     style: {
       position: 'absolute',
-      backgroundColor: node.color,
       left: -node.dimensions[0] / 2 / xScale,
       top: -node.dimensions[1] / 2 / yScale,
       width: node.dimensions[0] / xScale,
@@ -41,6 +40,10 @@ function NodeComponent (width, height, camera, node, key) {
   return React.createElement('div', props, node.text)
 }
 
+function ImageComponent (width, height, camera, node, key) {
+   
+}
+
 function CameraComponent (width, height, camera, node, key) {
   var camera = NodeComponent(width, height, camera, node, key)
 
@@ -52,15 +55,14 @@ function CameraComponent (width, height, camera, node, key) {
 }
 
 function ReactRenderer (el, scene) {
-  this.el = el
   this.scene = scene
 }
 
-ReactRenderer.prototype.render = function (camera) {
+ReactRenderer.prototype.render = function (el, camera) {
   var renderables = []
   var ASPECT_RATIO = 640 / 480
-  var w = this.el.clientWidth
-  var h = this.el.clientHeight
+  var w = el.clientWidth
+  var h = el.clientHeight
   var newWidth = w / h <= ASPECT_RATIO ? w : ASPECT_RATIO * h
   var newHeight = newWidth / ASPECT_RATIO
   var props = {
@@ -84,5 +86,5 @@ ReactRenderer.prototype.render = function (camera) {
   }
   var stage = React.createElement('div', props, renderables)
 
-  DOM.render(stage, this.el)
+  DOM.render(stage, el)
 }
