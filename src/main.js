@@ -106,7 +106,7 @@ function render () {
   requestAnimationFrame(render)
   count++
   b1.rotation[2] += Math.PI / 1080
-  b2.rotation[2] -= Math.PI / 720
+  b2.rotation[1] -= Math.PI / 360
   b2.position[0] = Math.sin(count / 100) * 100
   b3.position[1] = Math.cos(count / 10) * 50
   c.updateMatrices()
