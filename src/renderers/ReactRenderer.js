@@ -12,25 +12,23 @@ function setMat3d (width, height, camera, node) {
   var mat = mat4.create()
 
   mat4.multiply(mat, v, m)
-  var xScaled = (mat[12] + (camera.dimensions[0] / 2)) * (width / camera.dimensions[0])
-  var yScaled = (mat[13] + (camera.dimensions[1] / 2)) * (height / camera.dimensions[1]) 
-  mat[12] = xScaled
-  mat[13] = yScaled
+  //mat[12] += width / 2
+  //mat[13] += height / 2
   var vals = mat.join(',')
   return `matrix3d(${vals})`
 }
 
 function BaseProps (width, height, camera, node, key) {
-  var xScale = camera.dimensions[0] / width
-  var yScale = camera.dimensions[1] / height
+  var xScale = width / camera.dimensions[0]
+  var yScale = height / camera.dimensions[1]
 
 	this.key = key
 	this.style = {
 		position: 'absolute',
-		left: -node.dimensions[0] / 2 / xScale,
-		top: -node.dimensions[1] / 2 / yScale,
-		width: node.dimensions[0] / xScale,
-		height: node.dimensions[1] / yScale,
+    left: (-node.dimensions[0] / 2 * xScale),
+    top: (-node.dimensions[1] / 2 * yScale),
+		width: node.dimensions[0] * xScale,
+		height: node.dimensions[1] * yScale,
 		transform: setMat3d(width, height, camera, node)
 	}
 }
@@ -85,11 +83,13 @@ ReactRenderer.prototype.render = function (el, camera, scene) {
       backgroundColor: 'gray',
       width: newWidth,
       height: newHeight,
-      fontSize: 14 * newWidth / camera.dimensions[0] + 'px'
+      fontSize: 16 * newWidth / camera.dimensions[0] + 'px'
     }
   }
 
   scene.root.updateMatrices()
+  mat4.invert(camera.viewMatrix, camera.worldMatrix)
+
   for (var i = 0, node, Type; node = scene.nodes[i++];) {
     if (node === camera) continue
     if      (node.Type === 'Camera') Type = CameraComponent

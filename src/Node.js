@@ -10,6 +10,7 @@ function Node (props) {
   this.Type = props.Type || 'Node'
   this.color = props.color || '#113366'
   this.dimensions = props.dimensions || vec3.fromValues(10, 10, 0)
+  this.origin = props.origin || [0.5, 0.5]
 	this.scale = props.scale || vec3.fromValues(1, 1, 1)
 	this.position = props.position || vec3.fromValues(0, 0, 0)
 	this.rotation = props.rotation || vec3.fromValues(0, 0, 0)
@@ -34,8 +35,7 @@ Node.prototype.updateMatrices = function (parentWorldMatrix) {
     mat4.copy(this.worldMatrix, this.localMatrix)
   }
 
-	this.worldPosition[0] = this.worldMatrix[12]
-	this.worldPosition[1] = this.worldMatrix[13]
+  vec3.multiply(this.worldPosition, this.position, this.worldMatrix)
 
 	for (var i = 0, child; child = this.children[i++];) {
     child.updateMatrices(this.worldMatrix)

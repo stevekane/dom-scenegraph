@@ -17,7 +17,7 @@
   },
   "scripts": {
     "test": "node test",
-    "build": "cp assets/*.png dist/assets/ & cp src/styles.css dist/styles.css & http-server & watchify -o dist/main.js src/main.js"
+    "build": "cp assets/*.png dist/assets/ & cp src/styles.css dist/styles.css & http-server & watchify -o dist/main.js -d src/main.js"
   },
   "repository": {
     "type": "git",
